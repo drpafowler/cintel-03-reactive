@@ -24,18 +24,21 @@ with ui.sidebar(title=ui.h2("Global Controls"), width="400px"):
         "Sex",
         ["Male", "Female"],
         selected=["Male", "Female"],
+        inline=True,
     )
     ui.input_checkbox_group(
         "species",
         "Species",
         ["Adelie", "Gentoo", "Chinstrap"],
         selected=["Adelie", "Gentoo", "Chinstrap"],
+        inline=True,
     )
     ui.input_checkbox_group(
         "island",
         "Island",
         ["Biscoe", "Dream", "Torgersen"],
         selected=["Biscoe", "Dream", "Torgersen"],
+        inline=True,
     )   
     ui.hr()
     ui.h4("Seaborn Controls")
@@ -52,32 +55,57 @@ with ui.sidebar(title=ui.h2("Global Controls"), width="400px"):
 
 with ui.layout_column_wrap(fill=False):
     with ui.value_box():
-        "Number of penguins"
+        ui.h4("Dynamic Text1", style="color: white;")
 
         @render.text
         def count():
-            return filtered_df().shape[0]
+            return f"{filtered_df().shape[0]} penguins"
 
     with ui.value_box():
-        "Average bill length"
-
+        ui.h4("Dynamic Text2", style="color: white;")
         @render.text
-        def bill_length():
-            return f"{filtered_df()['bill_length_mm'].mean():.1f} mm"
+        def dynamic_text2():
+            if input.plot() == "Scatterplot":
+                return f"Average bill length: {filtered_df()['bill_length_mm'].mean():.1f} mm"
+            elif input.plot() == "Histogram":
+                if input.xaxis() == "bill_depth_mm":
+                    return f"Average bill depth: {filtered_df()['bill_depth_mm'].mean():.1f} mm"
+                elif input.xaxis() == "bill_length_mm":
+                    return f"Average bill length: {filtered_df()['bill_length_mm'].mean():.1f} mm"
+                elif input.xaxis() == "body_mass_g":
+                    return f"Average body mass: {filtered_df()['body_mass_g'].mean():.1f} g"
+            return "Select a valid plot type and x-axis"
 
     with ui.value_box():
-        "Average bill depth"
-
+        ui.h4("Dynamic Text3", style="color: white;")
         @render.text
-        def bill_depth():
-            return f"{filtered_df()['bill_depth_mm'].mean():.1f} mm"
+        def dynamic_text3():
+            if input.plot() == "Scatterplot":
+                return f"Average bill depth: {filtered_df()['bill_depth_mm'].mean():.1f} mm"
+            elif input.plot() == "Histogram":
+                if input.xaxis() == "bill_depth_mm":
+                    return f"Median bill depth: {filtered_df()['bill_depth_mm'].median():.1f} mm"
+                elif input.xaxis() == "bill_length_mm":
+                    return f"Median bill length: {filtered_df()['bill_length_mm'].median():.1f} mm"
+                elif input.xaxis() == "body_mass_g":
+                    return f"Median body mass: {filtered_df()['body_mass_g'].median():.1f} g"
+            return "Select a valid plot type and x-axis"
     
     with ui.value_box():
-        "Average body mass"
+        ui.h4("Dynamic Text4", style="color: white;")
 
         @render.text
-        def body_mass():
-            return f"{filtered_df()['body_mass_g'].mean():.1f} g"
+        def dynamic_text4():
+            if input.plot() == "Scatterplot":
+                return f"Average body mass: {filtered_df()['body_mass_g'].mean():.1f} g"
+            elif input.plot() == "Histogram":
+                if input.xaxis() == "bill_length_mm":
+                    return f"Range of bill length: {filtered_df()['bill_length_mm'].min():.1f} mm - {filtered_df()['bill_length_mm'].max():.1f} mm"
+                elif input.xaxis() == "bill_depth_mm":
+                    return f"Range of bill depth: {filtered_df()['bill_depth_mm'].min():.1f} mm - {filtered_df()['bill_depth_mm'].max():.1f} mm"
+                elif input.xaxis() == "body_mass_g":
+                    return f"Range of body mass: {filtered_df()['body_mass_g'].min():.1f} g - {filtered_df()['body_mass_g'].max():.1f} g"
+            return "Select a valid plot type and x-axis"
 
 with ui.layout_columns():
     with ui.card(full_screen=True):
