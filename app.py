@@ -11,14 +11,20 @@ from shinywidgets import render_widget
 ui.page_opts(title=ui.h1("Philip's Penguins", style="text-align: center;"), fillable=True)
 
 
-with ui.sidebar(title=ui.h2("Global Controls"), width="400px"):
+with ui.sidebar(title=ui.h2("Display Controls"), width="400px"):
     ui.input_select("xaxis", "X-axis (all plots)", ["bill_length_mm", "bill_depth_mm", "body_mass_g"], selected="bill_length_mm")
     ui.input_select("plot", "Plot Type", ["Scatterplot", "Histogram"])
     ui.input_select("yaxis", "Scatterplot Y-axis", ["bill_length_mm", "bill_depth_mm", "body_mass_g"], selected="bill_depth_mm")
     ui.input_select("hue_control", "Hue Control", ["sex", "species", "island"], selected="species")
-    ui.h4("Filter Controls")
+    ui.input_slider("bins", "Number of bins (histogram)", 5, 50, 20)
+
+    ui.hr()
+
+    ui.h2("Filter Controls")
     ui.input_switch("filter", "Filter Data", True)
-    ui.input_slider("mass", "Mass", 2000, 6000, [2000,6000])
+    ui.input_slider("mass", "Body Mass (g)", 2000, 6000, [2000,6000])
+    ui.input_slider("bill_depth", "Bill Depth (mm)", 10, 25, [10, 25])
+    ui.input_slider("bill_length", "Bill Length (mm)", 30, 60, [30, 60])
     ui.input_checkbox_group(
         "sex",
         "Sex",
@@ -40,14 +46,8 @@ with ui.sidebar(title=ui.h2("Global Controls"), width="400px"):
         selected=["Biscoe", "Dream", "Torgersen"],
         inline=True,
     )   
-    ui.hr()
-    ui.h4("Seaborn Controls")
 
-    ui.input_slider("bins", "Number of bins", 5, 50, 20)
 
-    ui.hr()
-    ui.h4("Plotly Controls")
-    ui.input_numeric("plotly_bins", "Number of bins", 20, min=5, max=50)
 
     ui.a("GitHub", href="https://github.com/drpafowler/cintel-02-data", target="_blank")
 
@@ -172,7 +172,7 @@ with ui.layout_columns():
                     color=input.hue_control(),
                     marginal="box",
                     title="Histogram of Penguin Data",
-                    nbins=input.plotly_bins()
+                    nbins=input.bins()
                     )
                 else:
                     fig = px.histogram(
@@ -180,7 +180,7 @@ with ui.layout_columns():
                     x=input.xaxis(),
                     marginal="box",
                     title="Histogram of Penguin Data",
-                    nbins=input.plotly_bins()
+                    nbins=input.bins()
                     )
             return fig
 
@@ -224,4 +224,6 @@ def filtered_df():
     filt_df = filt_df[filt_df["sex"].isin(input.sex())]
     filt_df = filt_df[filt_df["island"].isin(input.island())]
     filt_df = filt_df.loc[(filt_df["body_mass_g"] >= input.mass()[0]) & (filt_df["body_mass_g"] <= input.mass()[1])]
+    filt_df = filt_df.loc[(filt_df["bill_depth_mm"] >= input.bill_depth()[0]) & (filt_df["bill_depth_mm"] <= input.bill_depth()[1])]
+    filt_df = filt_df.loc[(filt_df["bill_length_mm"] >= input.bill_length()[0]) & (filt_df["bill_length_mm"] <= input.bill_length()[1])]
     return filt_df
