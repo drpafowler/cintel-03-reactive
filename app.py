@@ -268,6 +268,15 @@ with ui.layout_columns():
 # Include custom CSS styles
 ui.include_css(app_dir / "styles.css")
 
+@reactive.Effect
+def reset_filters():
+    if input.reset():
+        input.species.set(["Adelie", "Gentoo", "Chinstrap"])
+        input.sex.set(["Male", "Female"])
+        input.island.set(["Biscoe", "Dream", "Torgersen"])
+        input.mass.set([2000, 6000])
+        input.bill_depth.set([10, 25])
+        input.bill_length.set([30, 60])
 
 @reactive.calc
 def filtered_df():
@@ -297,12 +306,3 @@ def filtered_df():
     return filt_df
 
 
-    @reactive.Effect
-    def reset_filters():
-        if input.reset():
-            input.species.set(["Adelie", "Gentoo", "Chinstrap"])
-            input.sex.set(["Male", "Female"])
-            input.island.set(["Biscoe", "Dream", "Torgersen"])
-            input.mass.set([2000, 6000])
-            input.bill_depth.set([10, 25])
-            input.bill_length.set([30, 60])
