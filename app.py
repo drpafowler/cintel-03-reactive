@@ -68,6 +68,9 @@ with ui.sidebar(title=ui.h2("Display Controls"), width="400px"):
         selected=["Biscoe", "Dream", "Torgersen"],
         inline=True,
     )   
+    # Button to reset all filters to their initial settings
+    ui.input_action_button("reset", "Reset Filters")
+
 
     # Link to GitHub repository
     ui.a("GitHub", href="https://github.com/drpafowler/cintel-02-data", target="_blank")
@@ -292,3 +295,14 @@ def filtered_df():
     
     # Return the filtered dataframe
     return filt_df
+
+
+    @reactive.Effect
+    def reset_filters():
+        if input.reset():
+            input.species.set(["Adelie", "Gentoo", "Chinstrap"])
+            input.sex.set(["Male", "Female"])
+            input.island.set(["Biscoe", "Dream", "Torgersen"])
+            input.mass.set([2000, 6000])
+            input.bill_depth.set([10, 25])
+            input.bill_length.set([30, 60])
