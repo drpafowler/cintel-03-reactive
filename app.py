@@ -12,8 +12,8 @@ ui.page_opts(title=ui.h1("Philip's Penguins", style="text-align: center;"), fill
 
 
 with ui.sidebar(title=ui.h2("Display Controls"), width="400px"):
-    ui.input_select("xaxis", "X-axis (all plots)", ["bill_length_mm", "bill_depth_mm", "body_mass_g"], selected="bill_length_mm")
     ui.input_select("plot", "Plot Type", ["Scatterplot", "Histogram"])
+    ui.input_select("xaxis", "X-axis (all plots)", ["bill_length_mm", "bill_depth_mm", "body_mass_g"], selected="bill_length_mm")
     ui.input_select("yaxis", "Scatterplot Y-axis", ["bill_length_mm", "bill_depth_mm", "body_mass_g"], selected="bill_depth_mm")
     ui.input_select("hue_control", "Hue Control", ["sex", "species", "island"], selected="species")
     ui.input_slider("bins", "Number of bins (histogram)", 5, 50, 20, post=" bins")
