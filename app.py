@@ -16,15 +16,15 @@ with ui.sidebar(title=ui.h2("Display Controls"), width="400px"):
     ui.input_select("plot", "Plot Type", ["Scatterplot", "Histogram"])
     ui.input_select("yaxis", "Scatterplot Y-axis", ["bill_length_mm", "bill_depth_mm", "body_mass_g"], selected="bill_depth_mm")
     ui.input_select("hue_control", "Hue Control", ["sex", "species", "island"], selected="species")
-    ui.input_slider("bins", "Number of bins (histogram)", 5, 50, 20)
+    ui.input_slider("bins", "Number of bins (histogram)", 5, 50, 20, post=" bins")
 
     ui.hr()
 
     ui.h2("Filter Controls")
     ui.input_switch("filter", "Filter Data", True)
-    ui.input_slider("mass", "Body Mass (g)", 2000, 6000, [2000,6000])
-    ui.input_slider("bill_depth", "Bill Depth (mm)", 10, 25, [10, 25])
-    ui.input_slider("bill_length", "Bill Length (mm)", 30, 60, [30, 60])
+    ui.input_slider("mass", "Body Mass (g)", 2000, 6000, [2000,6000], post=" g")
+    ui.input_slider("bill_depth", "Bill Depth (mm)", 10, 25, [10, 25], post=" mm")
+    ui.input_slider("bill_length", "Bill Length (mm)", 30, 60, [30, 60], post=" mm")
     ui.input_checkbox_group(
         "sex",
         "Sex",
